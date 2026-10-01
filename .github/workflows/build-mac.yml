@@ -1,0 +1,43 @@
+name: Build bong
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-mac:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build -G Xcode
+
+      - name: Build VST3 and AU
+        run: cmake --build build --config Release --target Bong_VST3 Bong_AU -- -quiet
+
+      - name: Sign and package
+        run: |
+          ART=build/Bong_artefacts/Release
+          mkdir -p bong
+          cp -R "$ART/VST3/bong.vst3" bong/
+          cp -R "$ART/AU/bong.component" bong/
+          codesign --force --deep --sign - bong/bong.vst3
+          codesign --force --deep --sign - bong/bong.component
+          lipo -info bong/bong.vst3/Contents/MacOS/bong
+          cp INSTALL.txt bong/
+          ditto -c -k --keepParent bong bong-mac.zip
+
+      - name: Validate AU
+        continue-on-error: true
+        run: |
+          mkdir -p ~/Library/Audio/Plug-Ins/Components
+          cp -R bong/bong.component ~/Library/Audio/Plug-Ins/Components/
+          killall -9 AudioComponentRegistrar || true
+          sleep 2
+          auval -v aufx Bong Jk2f
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bong-mac
+          path: bong-mac.zip
