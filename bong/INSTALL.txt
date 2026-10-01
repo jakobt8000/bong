@@ -1,0 +1,20 @@
+BONG - installation (Mac)
+
+1. Luk Ableton Live.
+2. Kopier bong.vst3 til:       /Library/Audio/Plug-Ins/VST3/
+   Kopier bong.component til:  /Library/Audio/Plug-Ins/Components/
+   (samme mapper som Smadder ligger i)
+3. Fjern macOS-karantænen. Åbn Terminal, skriv "xattr -cr " (med mellemrum
+   til sidst), træk bong.vst3 ind i vinduet og tryk Enter.
+   Gør det samme for bong.component.
+4. Ableton > Settings > Plug-Ins > Rescan.
+5. Find "bong" under Plug-Ins > Jakob2ft.
+
+SIDER
+  01 HOLD RYTMEN  seks trin-effekter. Klik felterne under knapperne for at sætte trin.
+  02 ATMOSFÆRE    seks teksturer. Klik på en titel for at tænde/slukke.
+  03 KAOS         fire modulatorer. Vælg MÅL med < >. KAOS skalerer dem alle.
+  04 SEKVENS      alle trin samlet, mængde pr. effekt, længde og retning.
+
+KNAPPER
+  Træk op/ned. Shift = fint. Dobbeltklik = standardværdi. Scrollhjul virker også.
